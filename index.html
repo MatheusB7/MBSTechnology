@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MBS Technology</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header>
+    <div class="container header-flex">
+      <div class="branding">
+        <img src="imagem/MBS Technology.png" alt="Logo MBS Technology" class="logo" />
+        <div class="logo-title">
+          <h1>MBS <span>Technology</span></h1>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home">Início</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#produtos">Produtos</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+      <button id="theme-toggle" aria-label="Alternar tema">🌙</button>
+    </div>
+  </header>
+
+  <section id="home" class="hero">
+    <div class="container">
+      <h2>Inovando com tecnologia de ponta</h2>
+      <p>Aplicações web simples, seguras e acessíveis para o seu dia a dia.</p>
+    </div>
+  </section>
+
+  <section id="sobre">
+    <div class="container">
+      <h2>Sobre Nós</h2>
+      <p><strong>Missão:</strong> Desenvolver soluções digitais simples, seguras e acessíveis, que otimizem o dia a dia de pessoas e empresas.</p>
+      <p><strong>Visão:</strong> Ser reconhecida como uma referência em soluções web práticas e eficientes no Brasil até 2030.</p>
+      <p><strong>Valores:</strong> Simplicidade, Inovação, Segurança, Acessibilidade, Comprometimento.</p>
+    </div>
+  </section>
+
+  <section id="produtos">
+    <div class="container">
+      <h2>Produtos</h2>
+      <div class="produto">
+        <h3>Gerador de Senhas Seguras (Offline)</h3>
+        <p>Aplicação leve e segura para gerar senhas fortes automaticamente, sem internet.</p>
+        <a href="https://matheusb7.github.io/geradordesenha/" target="_blank">Acessar</a>
+      </div>
+      <div class="produto">
+        <h3>Comprovante de Venda (Não Fiscal)</h3>
+        <p>Ferramenta para criar comprovantes de vendas simples, ideal para pequenos negócios.</p>
+        <a href="https://matheusb7.github.io/Comprovante/" target="_blank">Acessar</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contato">
+    <div class="container">
+      <h2>Contato</h2>
+      <form id="form-contato" novalidate>
+        <input type="text" name="nome" placeholder="Seu nome" required />
+        <input type="email" name="email" placeholder="Seu email" required />
+        <textarea name="mensagem" placeholder="Sua mensagem" required></textarea>
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 MBS Technology. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

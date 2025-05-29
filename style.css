@@ -1,0 +1,249 @@
+/* Variáveis de tema */
+:root {
+  --bg-color: #0d1117;
+  --text-color: #e6f1ff;
+  --accent-color: #00d9ff;
+  --link-hover: #008cff;
+  --card-bg: #121f2f;
+  --section-bg: #0d1117;
+  --form-bg: #1c1f26;
+  --header-bg: #0b0f15;
+  --footer-color: #3fbfff;
+}
+
+body.light-theme {
+  --bg-color: #f2f2f2;
+  --text-color: #0d1117;
+  --accent-color: #0066cc;
+  --link-hover: #004499;
+  --card-bg: #ffffff;
+  --section-bg: #e8f0ff;
+  --form-bg: #ffffff;
+  --header-bg: #ffffff;
+  --footer-color: #0066cc;
+}
+
+/* Reset geral */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+/* Header */
+header {
+  background: var(--header-bg);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  padding: 12px 0;
+}
+
+.header-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.branding {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo {
+  height: 85px;
+  width: 85px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 18px rgba(0, 217, 255, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.1);
+}
+
+.logo-title h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(0, 217, 255, 0.3);
+}
+
+.logo-title:hover {
+  transform: scale(1.1);
+}
+
+.logo-title span {
+  color: #00d9ff;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .logo-title h1 {
+    font-size: 1.2rem;
+  }
+
+  .logo {
+    height: 55px;
+    width: 55px;
+  }
+}
+
+/* Navegação */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--accent-color);
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+  background-color: var(--link-hover);
+  color: var(--bg-color);
+}
+
+#theme-toggle {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--accent-color);
+  cursor: pointer;
+}
+
+/* Hero */
+.hero {
+  padding: 180px 0 60px;
+  text-align: center;
+  background: linear-gradient(120deg, #0b0f15, #12273a);
+  color: var(--accent-color);
+}
+
+.hero h2 {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Seções */
+section {
+  background-color: var(--section-bg);
+  padding: 40px 20px;
+  margin-bottom: 80px;
+  border-radius: 20px;
+}
+
+section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  border-left: 4px solid var(--accent-color);
+  padding-left: 12px;
+}
+
+/* Produtos */
+.produto {
+  background: var(--card-bg);
+  padding: 25px;
+  margin-bottom: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 12px rgba(0, 217, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.produto:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+}
+
+.produto h3 {
+  color: var(--accent-color);
+}
+
+.produto a {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 24px;
+  background: var(--accent-color);
+  color: var(--bg-color);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.produto a:hover {
+  background: var(--link-hover);
+}
+
+/* Formulário */
+form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 12px;
+  background: var(--form-bg);
+  color: var(--text-color);
+}
+
+form input:focus,
+form textarea:focus {
+  outline: 2px solid var(--accent-color);
+}
+
+form button {
+  background: var(--accent-color);
+  color: var(--bg-color);
+  padding: 12px 30px;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: var(--link-hover);
+}
+
+/* Footer */
+footer {
+  background: var(--header-bg);
+  text-align: center;
+  padding: 25px 0;
+  color: var(--footer-color);
+}
