@@ -81,10 +81,13 @@ header {
   font-weight: 600;
   color: #ffffff;
   text-shadow: 0 0 8px rgba(0, 217, 255, 0.3);
+  transition: text-decoration 0.3s ease;
 }
 
-.logo-title:hover {
-  transform: scale(1.1);
+.logo-title h1:hover {
+  text-decoration: underline;
+  text-decoration-color: #00d9ff;
+  text-underline-offset: 4px;
 }
 
 .logo-title span {
@@ -190,7 +193,8 @@ section h2 {
 
 .produto a {
   display: inline-block;
-  margin-top: 15px;
+  margin-top: 1px;
+  margin-left: 815px;
   padding: 10px 24px;
   background: var(--accent-color);
   color: var(--bg-color);
@@ -202,6 +206,24 @@ section h2 {
 
 .produto a:hover {
   background: var(--link-hover);
+}
+
+.produto-com-imagem {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.produto-com-imagem .produto-imagem img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 217, 255, 0.3);
+}
+
+.produto-com-imagem .produto-texto {
+  flex: 1;
 }
 
 /* Formulário */
@@ -246,4 +268,11 @@ footer {
   text-align: center;
   padding: 25px 0;
   color: var(--footer-color);
+}
+
+@media (max-width: 600px) {
+  .produto-com-imagem {
+    flex-direction: column;
+    text-align: center;
+  }
 }
