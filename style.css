@@ -17,9 +17,9 @@ body.light-theme {
   --accent-color: #0066cc;
   --link-hover: #004499;
   --card-bg: #ffffff;
-  --section-bg: #e8f0ff;
-  --form-bg: #ffffff;
-  --header-bg: #ffffff;
+  --section-bg: #ffffff;
+  --form-bg: #0b0f15;
+  --header-bg: #0b0f15;
   --footer-color: #0066cc;
 }
 
