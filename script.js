@@ -14,3 +14,12 @@ form.addEventListener('submit', (e) => {
   alert('Mensagem enviada com sucesso! Obrigado por entrar em contato.');
   form.reset();
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const menuToggle = document.getElementById('menu-toggle');
+  const navMenu = document.getElementById('nav-menu');
+
+  menuToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('open');
+  });
+});
