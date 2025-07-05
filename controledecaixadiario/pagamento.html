@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagamento - Controle de Caixa</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="image/ControleCaixaLogo.png" type="image/png" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0d1117;
+      color: #e6f1ff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #121f2f;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      color: #00d9ff;
+      font-size: 1.8rem;
+    }
+
+    main {
+      flex: 1;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #121f2f;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 217, 255, 0.1);
+    }
+
+    section {
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      color: #00d9ff;
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    strong {
+      color: #00ffcc;
+    }
+
+    .btn-container {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #00d9ff;
+      color: #0d1117;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #008cff;
+    }
+
+    .qr-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .qr-container img {
+      width: 220px;
+      height: auto;
+      border: 4px solid #00d9ff;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+    }
+
+    footer {
+      background: #121f2f;
+      padding: 20px;
+      text-align: center;
+      color: #00d9ff;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        margin: 20px;
+        padding: 15px;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .qr-container img {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Pagamento do Plano</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>Instruções</h2>
+      <p>Você escolheu o plano <strong><span id="plano-escolhido">...</span></strong>.</p>
+      <p>Valor: <strong><span id="valor-plano">...</span></strong></p>
+      <p>Realize o pagamento usando o botão abaixo ou escaneando o QR Code com seu app do Nubank.</p>
+    </section>
+
+    <div class="qr-container">
+      <a id="link-nubank" href="#" target="_blank">
+        <img id="qr-nubank" src="" alt="QR Code de pagamento Nubank" />
+      </a>
+      <p><a id="link-nubank-texto" href="#" target="_blank" style="color: #00d9ff;">Clique Aqui Para Copiar o Código</a></p>
+    </div>
+
+    <div class="btn-container">
+      <a href="ativar.html"><button>Já paguei / Inserir Código</button></a>
+    </div>
+  </main>
+
+  <footer>
+    MBS Technology &copy; 2025 - Todos os direitos reservados
+  </footer>
+
+  <script>
+    const plano = localStorage.getItem('plano_selecionado') || 'mensal';
+
+    const precos = {
+      gratis: 'R$ 0,00',
+      mensal: 'R$ 4,99',
+      bimestral: 'R$ 8,99',
+      trimestral: 'R$ 11,99',
+      semestral: 'R$ 19,99',
+      anual: 'R$ 34,99'
+    };
+
+    const linksPagamento = {
+      mensal: 'https://nubank.com.br/cobrar/193e5i/6866dab2-f757-4fe7-9c32-efc4b9e36325',
+      bimestral: 'https://nubank.com.br/cobrar/193e5i/6866db0d-bf60-4851-a25e-9bca07d656e1',
+      trimestral: 'https://nubank.com.br/cobrar/193e5i/6866db2e-dd7f-423b-922d-5885fc1cfe71',
+      semestral: 'https://nubank.com.br/cobrar/193e5i/6866db54-c628-428e-b8b6-743a734ad3aa',
+      anual: 'https://nubank.com.br/cobrar/193e5i/6866db7a-026c-4a41-9393-f0fa61a0b231'
+    };
+
+    document.getElementById('plano-escolhido').innerText = plano.charAt(0).toUpperCase() + plano.slice(1);
+    document.getElementById('valor-plano').innerText = precos[plano] || 'R$ 0,00';
+
+    const link = linksPagamento[plano];
+    if (link) {
+      const qrCodeAPI = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(link)}`;
+      document.getElementById('qr-nubank').src = qrCodeAPI;
+      document.getElementById('link-nubank').href = link;
+      document.getElementById('link-nubank-texto').href = link;
+    } else {
+      document.querySelector('.qr-container').innerHTML = `<p style="color: #ff5050;">Este plano é gratuito ou não tem link de pagamento.</p>`;
+    }
+  </script>
+</body>
+</html>

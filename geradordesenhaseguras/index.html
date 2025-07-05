@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MBS Gerador de Senhas</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="GeradorSenhaLogo.png" type="image/png" />
+</head>
+<body>
+  <div class="container">
+    <img src="geradordesenha_MBS_Technology.png" alt="Logo MBS" class="logo"/>
+    
+    <h1>Gerador de Senhas Seguras</h1>
+    <h2 class="subtitulo">Tecnologia com segurança — MBS Technology</h2>
+
+    <a href="https://github.com/user-attachments/files/20025560/geradordesenha_MBS_Technology.zip" 
+   class="download-button" 
+   download="geradordesenha_MBS_Technology.zip" 
+   target="_blank">
+   🔽 Baixar Gerador de Senhas Grátis
+    </a>
+
+    <div class="premium-box">
+      <h3>💎 Versão Premium - R$ 9,90/mês</h3>
+      <p>
+        ➤ Geração de senhas com até 20 caracteres<br/>
+        ➤ Inclui símbolos, letras maiúsculas e segurança extra<br/>
+        ➤ Receba um código de ativação mensal exclusivo
+      </p>
+    </div>
+
+    <h2>Pagamento via PIX</h2>
+    <img src="qrcode_pix.jpg" alt="QR Code PIX" class="qr-code" />
+    <a href="https://nubank.com.br/cobrar/193e5i/681152fb-fae1-4111-9b8b-30f5a4e5cf23" 
+       class="nubank-button" 
+       target="_blank">
+      💜 Clique Aqui Para Copiar o Código Pix
+    </a>
+
+    <h2>Envie o comprovante de pagamento</h2>
+    <form id="comprovanteForm" action="https://formsubmit.co/mbstechnologysite@gmail.com" method="POST" enctype="multipart/form-data">
+    <div class="field">
+      <label for="nome">Seu Nome Completo:</label>
+      <input type="text" id="nome" name="Cliente" required />
+    </div>
+    
+    <div class="field">
+      <label for="email">Seu E-mail:</label>
+      <input type="email" id="email" name="Email" required />
+    </div>
+
+    <div class="field">
+      <label for="arquivo">Comprovante (imagem ou PDF):</label>
+      <input type="file" id="arquivo" name="attachment" accept=".jpg,.jpeg,.png,.pdf" required />
+      <div class="premium-box">
+        <h3>⭐ Aviso Importante:</h3>
+        <p>
+          ⏳ Após o envio em no máximo 24 horas, você receberá um e-mail com o código de ativação do Modo Premium.
+        </p>
+      </div>
+    </div>
+
+      <input type="hidden" name="_captcha" value="false" />
+      <button type="submit" id="submitButton">📤 Enviar Comprovante</button>
+      <div id="loading" class="loading"></div>
+      <p id="mensagem" class="mensagem-status"></p>
+    </form>
+
+    <footer>
+      <p>© 2025 Direitos Autorais: Matheus Barbosa da Silva - MBS Technology</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

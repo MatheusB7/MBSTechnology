@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ativação Premium - MBS Technology</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0d1117;
+      color: #e6f1ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #00d9ff;
+      margin-bottom: 30px;
+    }
+    input[type="text"] {
+      padding: 12px;
+      width: 300px;
+      border-radius: 8px;
+      border: none;
+      background: #1c1f26;
+      color: #e6f1ff;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 30px;
+      background-color: #00d9ff;
+      border: none;
+      border-radius: 8px;
+      color: #0d1117;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #008cff;
+    }
+    #mensagem {
+      margin-top: 25px;
+      font-weight: bold;
+      min-height: 1.5em;
+      text-align: center;
+    }
+    #mensagem.sucesso {
+      color: #00ff99;
+    }
+    #mensagem.erro {
+      color: #ff5050;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Ativação Premium</h1>
+
+  <input type="text" id="codigo" placeholder="Digite o código de ativação" maxlength="19" />
+  <button onclick="ativarPremium()">Ativar</button>
+
+  <div id="mensagem"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

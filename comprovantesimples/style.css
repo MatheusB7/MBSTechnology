@@ -1,0 +1,125 @@
+:root {
+  --cor-primaria: #143455;
+  --cor-secundaria: #f4f4f4;
+  --cor-texto: #222;
+  --cor-botao: #007b5e;
+  --cor-comprovante: #f0faff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--cor-secundaria);
+  color: var(--cor-texto);
+}
+
+header {
+  background-color: var(--cor-primaria);
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+}
+
+main {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+  font-weight: bold;
+  display: block;
+  margin-top: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.botoes {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+button {
+  padding: 10px 16px;
+  background-color: var(--cor-botao);
+  border: none;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+button:hover {
+  background-color: #006249;
+}
+
+.comprovante-box {
+  background-color: var(--cor-comprovante);
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 25px;
+  box-shadow: 0 0 8px rgba(0, 128, 255, 0.1);
+}
+
+#info {
+  font-family: 'Courier New', monospace;
+  white-space: pre-line;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 15px;
+  background: #eee;
+  font-size: 14px;
+  /* Remova margin-top porque o footer é fixo */
+  margin-top: 0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+  transform: scale(1.25);
+  border-radius: 25%;
+}
+
+.logo {
+  width: 160px;
+  height: auto;
+}
+
+.logo-fixa {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.logo-fixa .logo {
+  width: 120px;
+  height: auto;
+  image-rendering: auto;       /* deixa o navegador otimizar a nitidez */
+  image-rendering: crisp-edges; /* melhora em PNGs com contraste */
+  image-rendering: -webkit-optimize-contrast; /* Safari/Chrome */
+  border-radius: 12px; /* opcional: borda arredondada */
+}

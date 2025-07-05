@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Controle de Caixa - Produto</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="image/ControleCaixaLogo.png" type="image/png" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0d1117;
+      color: #e6f1ff;
+      margin: 0;
+      padding: 0 15px 30px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    header {
+      text-align: center;
+      padding: 20px 0;
+      position: relative;
+    }
+    #aviso-versao {
+      font-weight: bold;
+      margin-top: 8px;
+    }
+    section {
+      background: #121f2f;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      box-shadow: 0 0 15px rgba(0, 217, 255, 0.08);
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: none;
+      background: #1c1f26;
+      color: #e6f1ff;
+    }
+    button {
+      background: #00d9ff;
+      color: #0d1117;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #008cff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border-bottom: 1px solid #1c1f26;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      color: #00d9ff;
+    }
+    .disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    #grafico-container {
+      width: 100%;
+      height: 300px;
+    }
+    #relatorio-texto {
+      white-space: pre-wrap;
+      background: #0d1117;
+      border: 1px solid #00d9ff;
+      padding: 15px;
+      border-radius: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: monospace;
+      margin-top: 10px;
+    }
+    #senha-acesso {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Controle de Caixa - Painel</h1>
+  <div id="aviso-versao"></div>
+  <div id="dias-restantes" style="font-size:0.9rem; color:#00ffcc; font-weight:bold;"></div>
+</header>
+
+<section id="senha-acesso" style="display:none;">
+  <label for="input-senha">Digite a senha de acesso:</label>
+  <input type="password" id="input-senha" placeholder="Senha premium" />
+  <button onclick="validarSenha()">Entrar</button>
+  <p id="mensagem-senha" style="color:#ff5050; font-weight:bold;"></p>
+</section>
+
+<main id="main-content" style="display:none;">
+  <section class="formulario">
+    <label for="tipo">Tipo:</label>
+    <select id="tipo">
+      <option value="entrada">Entrada</option>
+      <option value="saida">Saída</option>
+    </select>
+
+    <label for="forma">Forma de Pagamento:</label>
+    <select id="forma">
+      <option value="dinheiro">Dinheiro</option>
+      <option value="cartao">Cartão</option>
+    </select>
+
+    <label for="descricao">Descrição:</label>
+    <input type="text" id="descricao" placeholder="Ex: Venda de produto" />
+
+    <label for="valor">Valor (R$):</label>
+    <input type="number" id="valor" min="0" step="0.01" placeholder="0.00" />
+
+    <button onclick="registrar()">Registrar</button>
+  </section>
+
+  <section class="filtros-premium" style="display:none;">
+    <h2>Filtros Premium</h2>
+    <label for="filtro-data">Filtrar por data:</label>
+    <select id="filtro-data" onchange="filtrarMovimentacoes()">
+      <option value="todos">Todos</option>
+      <option value="hoje">Hoje</option>
+      <option value="semana">Última Semana</option>
+      <option value="mes">Este Mês</option>
+    </select>
+
+    <label for="busca-palavra">Buscar por descrição ou forma:</label>
+    <input type="text" id="busca-palavra" placeholder="Digite palavra-chave" oninput="filtrarMovimentacoes()" />
+  </section>
+
+  <section class="resumo">
+    <h2>Resumo</h2>
+    <p>Entradas: R$ <span id="total-entradas">0.00</span></p>
+    <p>Saídas: R$ <span id="total-saidas">0.00</span></p>
+    <p>Saldo Final: R$ <span id="saldo-final">0.00</span></p>
+  </section>
+
+  <section class="movimentacoes">
+    <h2>Movimentações</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Forma</th>
+          <th>Descrição</th>
+          <th>Valor (R$)</th>
+          <th>Hora</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody id="lista-movimentacoes"></tbody>
+    </table>
+  </section>
+
+  <section class="exportar">
+    <h2>Exportar Dados</h2>
+    <button id="btn-txt" onclick="exportarMovimentacoes('txt')">Salvar como TXT</button>
+    <button id="btn-json" onclick="exportarMovimentacoes('json')">Salvar como JSON</button>
+    <button id="btn-csv" onclick="exportarMovimentacoes('csv')">Salvar como CSV</button>
+  </section>
+
+  <section class="grafico-premium" style="display:none;">
+    <h2>Gráfico de Movimentações</h2>
+    <canvas id="grafico"></canvas>
+  </section>
+
+  <section class="backup-premium" style="display:none;">
+    <h2>Backup e Restauração</h2>
+    <button onclick="fazerBackup()">Fazer Backup (JSON)</button>
+    <input type="file" id="input-backup" accept=".json" onchange="restaurarBackup(event)" />
+  </section>
+
+  <section class="relatorio-premium" style="display:none;">
+    <h2>Impressão de Relatório</h2>
+    <button onclick="gerarRelatorio()">Gerar Relatório</button>
+    <pre id="relatorio-texto"></pre>
+    <button onclick="imprimirRelatorio()" style="margin-top:10px;">Imprimir Relatório</button>
+  </section>
+</main>
+
+<footer>
+  <p>MBS Technology &copy; 2025</p>
+</footer>
+
+<script>
+  let movimentacoes = JSON.parse(localStorage.getItem('movimentacoes')) || [];
+  let movimentacoesFiltradas = [...movimentacoes];
+  const isPremium = localStorage.getItem('plano_ativado') === 'premium';
+
+  const avisoVersao = document.getElementById('aviso-versao');
+  const mainContent = document.getElementById('main-content');
+  const senhaAcesso = document.getElementById('senha-acesso');
+  const mensagemSenha = document.getElementById('mensagem-senha');
+
+  const diasRestantesDiv = document.getElementById('dias-restantes');
+
+  function exibirDiasRestantes() {
+    const dataAtivacao = localStorage.getItem('premium_ativado_em');
+    if (!dataAtivacao) return 0;
+    const diasValidos = parseInt(localStorage.getItem('premium_dias')) || 30;
+
+    const ativadoEm = new Date(dataAtivacao);
+    const hoje = new Date();
+    const diasPassados = Math.floor((hoje - ativadoEm) / (1000 * 60 * 60 * 24));
+    const tempoRestante = diasValidos - diasPassados;
+
+    if (tempoRestante <= 0) {
+      alert("Seu plano Premium expirou.");
+      localStorage.removeItem('plano_ativado');
+      localStorage.removeItem('premium_ativado_em');
+      localStorage.removeItem('premium_dias');
+      window.location.href = 'ativar.html';
+      return 0;
+    }
+    diasRestantesDiv.textContent = `Dias restantes do Premium: ${tempoRestante}`;
+    return tempoRestante;
+  }
+
+  function mostrarInterface() {
+    if (isPremium) {
+      avisoVersao.innerHTML = '<span style="color:#00ffcc;">Versão Premium Ativa</span>';
+      document.querySelector('.filtros-premium').style.display = 'block';
+      document.querySelector('.grafico-premium').style.display = 'block';
+      document.querySelector('.backup-premium').style.display = 'block';
+      document.querySelector('.relatorio-premium').style.display = 'block';
+      exibirDiasRestantes();
+      mainContent.style.display = 'block';
+    } else {
+      avisoVersao.innerHTML = '<span style="color:#ff5050;">Versão Gratuita</span>';
+      // para versão gratuita mostra sem filtros, gráfico, backup e relatorio e botão excluir desabilitado
+      mainContent.style.display = 'block';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (isPremium) {
+      const senhaSalva = localStorage.getItem('senha_acesso_valida');
+      if (senhaSalva === 'true') {
+        mostrarInterface();
+      } else {
+        senhaAcesso.style.display = 'block';
+      }
+    } else {
+      mostrarInterface();
+    }
+    atualizarTabela();
+    atualizarResumo();
+  });
+
+  function validarSenha() {
+    const senhaInput = document.getElementById('input-senha').value;
+    const senhaCadastrada = localStorage.getItem('senha_premium') || 'mbs2025'; // senha default para teste
+
+    if (senhaInput === senhaCadastrada) {
+      localStorage.setItem('senha_acesso_valida', 'true');
+      senhaAcesso.style.display = 'none';
+      mostrarInterface();
+    } else {
+      mensagemSenha.textContent = 'Senha incorreta. Tente novamente.';
+    }
+  }
+
+  function salvarMovimentacoes() {
+    localStorage.setItem('movimentacoes', JSON.stringify(movimentacoes));
+  }
+
+  function registrar() {
+    const tipo = document.getElementById("tipo").value;
+    const forma = document.getElementById("forma").value;
+    const descricao = document.getElementById("descricao").value.trim();
+    const valor = parseFloat(document.getElementById("valor").value);
+
+    if (!descricao || isNaN(valor) || valor <= 0) {
+      alert("Preencha todos os campos corretamente.");
+      return;
+    }
+
+    const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    const registro = { tipo, forma, descricao, valor, hora, data: new Date().toISOString().slice(0,10) };
+    movimentacoes.push(registro);
+    salvarMovimentacoes();
+    filtrarMovimentacoes();
+    limparCampos();
+  }
+
+  function atualizarTabela() {
+    const tbody = document.getElementById("lista-movimentacoes");
+    tbody.innerHTML = "";
+
+    movimentacoesFiltradas.forEach((m, index) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${m.tipo}</td>
+        <td>${m.forma}</td>
+        <td>${m.descricao}</td>
+        <td>R$ ${m.valor.toFixed(2)}</td>
+        <td>${m.hora}</td>
+        <td>${isPremium ? `<button onclick="excluir(${index})">Excluir</button>` : '-'}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function atualizarResumo() {
+    let totalEntradas = 0;
+    let totalSaidas = 0;
+
+    movimentacoesFiltradas.forEach(m => {
+      if (m.tipo === "entrada") totalEntradas += m.valor;
+      else totalSaidas += m.valor;
+    });
+
+    document.getElementById("total-entradas").innerText = totalEntradas.toFixed(2);
+    document.getElementById("total-saidas").innerText = totalSaidas.toFixed(2);
+    document.getElementById("saldo-final").innerText = (totalEntradas - totalSaidas).toFixed(2);
+  }
+
+  function limparCampos() {
+    document.getElementById("descricao").value = "";
+    document.getElementById("valor").value = "";
+  }
+
+  function excluir(index) {
+    if (!isPremium) return;
+    movimentacoesFiltradas.splice(index, 1);
+    // Reflete exclusão também na lista geral
+    movimentacoes = movimentacoes.filter(m => movimentacoesFiltradas.includes(m));
+    salvarMovimentacoes();
+    filtrarMovimentacoes();
+  }
+
+  function filtrarMovimentacoes() {
+    if (!isPremium) {
+      movimentacoesFiltradas = [...movimentacoes];
+      atualizarTabela();
+      atualizarResumo();
+      return;
+    }
+
+    const filtroData = document.getElementById('filtro-data').value;
+    const busca = document.getElementById('busca-palavra').value.toLowerCase();
+
+    const hoje = new Date();
+    movimentacoesFiltradas = movimentacoes.filter(m => {
+      let passaFiltroData = true;
+      const dataMov = new Date(m.data);
+
+      if (filtroData === 'hoje') {
+        passaFiltroData = m.data === hoje.toISOString().slice(0,10);
+      } else if (filtroData === 'semana') {
+        const umaSemanaAtras = new Date();
+        umaSemanaAtras.setDate(hoje.getDate() - 7);
+        passaFiltroData = dataMov >= umaSemanaAtras && dataMov <= hoje;
+      } else if (filtroData === 'mes') {
+        const inicioMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
+        passaFiltroData = dataMov >= inicioMes && dataMov <= hoje;
+      }
+
+      const descricaoMatch = m.descricao.toLowerCase().includes(busca);
+      const formaMatch = m.forma.toLowerCase().includes(busca);
+
+      return passaFiltroData && (descricaoMatch || formaMatch);
+    });
+
+    atualizarTabela();
+    atualizarResumo();
+    atualizarGrafico();
+  }
+
+  function exportarMovimentacoes(formato) {
+    if (movimentacoes.length === 0) {
+      alert('Nenhuma movimentação registrada para exportar.');
+      return;
+    }
+
+    let conteudo = '';
+    let tipoMime = '';
+    let nomeArquivo = `movimentacoes_${new Date().toISOString().slice(0,10)}`;
+
+    if (formato === 'txt') {
+      conteudo = movimentacoesFiltradas.map(m => 
+        `[${m.hora}] ${m.tipo.toUpperCase()} - ${m.forma} - ${m.descricao} - R$ ${m.valor.toFixed(2)}`
+      ).join('\n');
+      tipoMime = 'text/plain';
+      nomeArquivo += '.txt';
+
+    } else if (formato === 'json') {
+      conteudo = JSON.stringify(movimentacoesFiltradas, null, 2);
+      tipoMime = 'application/json';
+      nomeArquivo += '.json';
+
+    } else if (formato === 'csv') {
+      const cabecalho = ['Tipo', 'Forma', 'Descrição', 'Valor (R$)', 'Hora', 'Data'];
+      const linhas = movimentacoesFiltradas.map(m =>
+        [m.tipo, m.forma, `"${m.descricao.replace(/"/g, '""')}"`, m.valor.toFixed(2), m.hora, m.data].join(';')
+      );
+      conteudo = [cabecalho.join(';'), ...linhas].join('\n');
+      tipoMime = 'text/csv';
+      nomeArquivo += '.csv';
+
+    } else {
+      alert('Formato não suportado.');
+      return;
+    }
+
+    const blob = new Blob([conteudo], { type: tipoMime });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = nomeArquivo;
+    link.click();
+  }
+
+  // Gráfico Premium - entradas vs saídas por dia no período filtrado
+  let grafico = null;
+  function atualizarGrafico() {
+    if (!isPremium) return;
+
+    const ctx = document.getElementById('grafico').getContext('2d');
+
+    // Agrupar por data
+    const dadosPorData = {};
+    movimentacoesFiltradas.forEach(m => {
+      if (!dadosPorData[m.data]) dadosPorData[m.data] = { entradas: 0, saidas: 0 };
+      if (m.tipo === 'entrada') dadosPorData[m.data].entradas += m.valor;
+      else dadosPorData[m.data].saidas += m.valor;
+    });
+
+    const datas = Object.keys(dadosPorData).sort();
+    const entradas = datas.map(d => dadosPorData[d].entradas);
+    const saidas = datas.map(d => dadosPorData[d].saidas);
+
+    if (grafico) grafico.destroy();
+
+    grafico = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: datas,
+        datasets: [
+          {
+            label: 'Entradas (R$)',
+            data: entradas,
+            backgroundColor: 'rgba(0, 217, 255, 0.7)'
+          },
+          {
+            label: 'Saídas (R$)',
+            data: saidas,
+            backgroundColor: 'rgba(255, 80, 80, 0.7)'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { color: '#e6f1ff' }
+          },
+          x: {
+            ticks: { color: '#e6f1ff' }
+          }
+        },
+        plugins: {
+          legend: { labels: { color: '#00d9ff' } }
+        }
+      }
+    });
+  }
+
+  // Backup e restauração Premium
+  function fazerBackup() {
+    if (!isPremium) return alert('Recurso disponível apenas para Premium.');
+
+    const data = JSON.stringify(movimentacoes);
+    const blob = new Blob([data], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `backup_movimentacoes_${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function restaurarBackup(event) {
+    if (!isPremium) return alert('Recurso disponível apenas para Premium.');
+
+    const arquivo = event.target.files[0];
+    if (!arquivo) return;
+
+    const leitor = new FileReader();
+    leitor.onload = function(e) {
+      try {
+        const dados = JSON.parse(e.target.result);
+        if (Array.isArray(dados)) {
+          movimentacoes = dados;
+          salvarMovimentacoes();
+          filtrarMovimentacoes();
+          alert('Backup restaurado com sucesso!');
+        } else {
+          alert('Arquivo inválido.');
+        }
+      } catch {
+        alert('Erro ao ler o arquivo.');
+      }
+    };
+    leitor.readAsText(arquivo);
+  }
+
+  // Relatório Premium
+  let textoRelatorio = '';
+  function gerarRelatorio() {
+    if (!isPremium) return alert('Recurso disponível apenas para Premium.');
+
+    if (movimentacoesFiltradas.length === 0) {
+      alert('Nenhuma movimentação para gerar relatório.');
+      return;
+    }
+
+    textoRelatorio = movimentacoesFiltradas.map(m => {
+      return `[${m.data} ${m.hora}] ${m.tipo.toUpperCase()} - ${m.forma} - ${m.descricao} - R$ ${m.valor.toFixed(2)}`;
+    }).join('\n');
+
+    document.getElementById('relatorio-texto').textContent = textoRelatorio;
+  }
+
+  function imprimirRelatorio() {
+    if (!isPremium) return alert('Recurso disponível apenas para Premium.');
+
+    if (!textoRelatorio) {
+      alert('Gere o relatório antes de imprimir.');
+      return;
+    }
+
+    const janela = window.open('', '', 'width=800,height=600');
+    janela.document.write('<pre style="font-family: monospace; padding: 20px;">' + textoRelatorio + '</pre>');
+    janela.document.close();
+    janela.focus();
+    janela.print();
+    janela.close();
+  }
+</script>
+</body>
+</html>

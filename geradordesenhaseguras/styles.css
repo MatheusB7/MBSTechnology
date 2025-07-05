@@ -1,0 +1,178 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #0f1116;
+  color: #e0e0e0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  background-color: #1b1e25;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #00e1ff;
+  text-align: center;
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+  margin-bottom: 10px;
+  border-radius: 50%;
+}
+
+h1 {
+  color: #00e1ff;
+}
+
+.subtitulo {
+  color: #aaa;
+  font-size: 0.9em;
+  margin-bottom: 25px;
+}
+
+.download-button {
+  display: inline-block;
+  margin: 20px auto;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #00e1ff, #00c0c0);
+  color: #000;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 0 10px #00e1ff88;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  animation: pulseEffect 2s infinite;
+}
+
+.download-button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #00c0c0, #00a0a0);
+}
+
+@keyframes pulseEffect {
+  0% { box-shadow: 0 0 10px #00e1ff88; }
+  50% { box-shadow: 0 0 20px #00e1ffcc; }
+  100% { box-shadow: 0 0 10px #00e1ff88; }
+}
+
+.premium-box {
+  border: 1px solid #00e1ff;
+  border-radius: 10px;
+  padding: 15px;
+  background-color: #21252b;
+  margin: 30px 0;
+  text-align: left;
+}
+
+.qr-code {
+  margin: 10px auto;
+  width: 200px;
+  display: block;
+}
+
+.nubank-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 14px 26px;
+  background: linear-gradient(135deg, #8715d3, #aa42ff);
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 0 15px #b65dff88;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  animation: pulseNubank 2s infinite;
+}
+
+.nubank-button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #ac47ff, #8a17d6);
+  box-shadow: 0 0 20px #ae4affaa;
+}
+
+@keyframes pulseNubank {
+  0% { box-shadow: 0 0 10px #a437ff55; }
+  50% { box-shadow: 0 0 20px #a437ffcc; }
+  100% { box-shadow: 0 0 10px #a437ff55; }
+}
+
+.pix-key {
+  color: #00e1ff;
+  font-size: 1.1em;
+  margin-bottom: 25px;
+}
+
+.field {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.field label {
+  font-size: 14px;
+  color: #bbb;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.field input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: #2a2e38;
+  color: #fff;
+  font-size: 14px;
+  width: 100%;
+}
+
+button[type="submit"] {
+  padding: 12px;
+  background-color: #00e1ff;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #00c0c0;
+}
+
+.loading {
+  display: none;
+  margin: 20px auto;
+  width: 50px;
+  height: 50px;
+  border: 5px solid #00e1ff;
+  border-radius: 50%;
+  border-top: 5px solid transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.mensagem-status {
+  text-align: center;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 0.8em;
+  color: #666;
+}

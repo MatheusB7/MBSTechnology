@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Acesso Protegido - MBS Technology</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🔒 Acesso Restrito</h1>
+    <p>Área protegida da <strong>MBS Technology</strong></p>
+  </header>
+
+  <main>
+    <div class="logo-container">
+      <img src="LogoComprovanteSimples.png" alt="Logo da MBS Technology" class="logo" />
+    </div>
+
+    <form onsubmit="event.preventDefault(); verificarSenha();">
+      <label for="senha">Digite a senha de acesso:</label>
+      <input type="text" id="senha" placeholder="Digite a senha aqui" required />
+
+      <div class="botoes">
+        <button type="submit">Entrar</button>
+      </div>
+    </form>
+
+    <div id="conteudo" class="comprovante-box" style="display:none; margin-top: 25px;">
+      <h2>✅ Conteúdo Liberado</h2>
+      <p>Bem-vindo à área protegida da plataforma!</p>
+      <a href="produto.html">➡️ Acessar produtos</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; <span id="anoAtualFooter"></span> MBS Technology. Todos os direitos reservados.
+  </footer>
+
+  <script>
+    function gerarSenha() {
+      const hoje = new Date();
+      const mes = hoje.getMonth() + 1; // 1 a 12
+      const anoAtual = hoje.getFullYear();
+      const anoPassado = anoAtual - 1;
+      const anoFuturo = anoAtual + 1;
+
+      const hexPassado = (anoPassado * mes).toString(16).toUpperCase();
+      const hexAtual = (anoAtual * mes).toString(16).toUpperCase();
+      const hexFuturo = (anoFuturo * mes).toString(16).toUpperCase();
+
+      return `MBS-${hexPassado}-XX${hexAtual.slice(2)}-${hexFuturo}`;
+    }
+
+    function mostrarSenhaAtual() {
+      const senha = gerarSenha();
+      document.getElementById("senhaAtual").textContent = senha;
+
+      // Atualiza ano no footer
+      const ano = new Date().getFullYear();
+      document.getElementById("anoAtualFooter").textContent = ano;
+    }
+
+    function verificarSenha() {
+      const senhaDigitada = document.getElementById("senha").value.trim().toUpperCase();
+      const senhaCorreta = gerarSenha();
+
+      if (senhaDigitada === senhaCorreta) {
+        // Salva flag de acesso liberado
+        localStorage.setItem("acessoPermitido", "true");
+
+        document.getElementById("conteudo").style.display = "block";
+      } else {
+        alert("❌ Senha incorreta! Verifique e tente novamente.");
+      }
+    }
+
+    // Inicializa ao carregar a página
+    window.onload = mostrarSenhaAtual;
+  </script>
+</body>
+</html>

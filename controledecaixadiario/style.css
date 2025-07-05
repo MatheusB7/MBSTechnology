@@ -1,0 +1,282 @@
+body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0d1117;
+      color: #e6f1ff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .logo-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  width: 60px;
+  height: auto;
+}
+
+    header, footer {
+      background: #121f2f;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1, footer p {
+      margin: 0;
+      color: #00d9ff;
+    }
+
+    .logo-title h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(0, 217, 255, 0.3);
+      transition: text-decoration 0.3s ease;
+    }
+
+    .logo-title span {
+      color: #00d9ff;
+      font-weight: 700;
+    }
+
+    main {
+      flex: 1;
+      padding: 40px 20px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .explicacao {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .explicacao h2 {
+      color: #00d9ff;
+      margin-bottom: 10px;
+    }
+
+    .explicacao p {
+      font-size: 1rem;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 10px auto;
+    }
+
+    .plano-titulo {
+      color: #00d9ff;
+      margin-left: -750px;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .plano-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .plano {
+      background-color: #121f2f;
+      border: 2px solid #ffffff;
+      border-radius: 16px;
+      aspect-ratio: 3 / 4;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
+      transition: transform 0.3s;
+      font-family: Arial, sans-serif;
+      font-size: 1.5rem;
+    }
+
+    .plano:hover {
+      transform: scale(1.05);
+    }
+
+    .plano h3 {
+      color: #00d9ff;
+      margin-bottom: 10px;
+    }
+
+    .plano .preco {
+      font-size: 1.9rem;
+      font-weight: bold;
+      color: #00ffcc;
+      margin: 10px 0;
+    }
+
+    .preco-original {
+      text-decoration: line-through;
+      color: #888;
+      font-size: 1.75rem;
+      margin-right: 8px;
+    }
+
+    .economia {
+      color: #e76f51;
+      font-weight: bold;
+      font-size: 1.3rem;
+      margin-left: 5px;
+    }
+
+    .plano p {
+      font-size: 1rem;
+      margin: 0 0 12px;
+      color: #e6f1ff;
+    }
+
+    .plano button {
+      background-color: #00d9ff;
+      color: #0d1117;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .plano button:hover {
+      background-color: #ffffff;
+    }
+
+    @media (max-width: 900px) {
+      .plano-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .plano-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    footer {
+      margin-top: auto;
+    }
+
+header, footer {
+  background: #121f2f;
+  padding: 20px;
+  text-align: center;
+}
+
+h1, h2 {
+  color: #00d9ff;
+}
+
+main {
+  padding: 30px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+section {
+  background: #121f2f;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.15);
+}
+
+.explicacao {
+  background: #121f2f;
+  border-left: 5px solid #00d9ff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.08);
+  margin-bottom: 40px;
+
+  text-align: left;  /* <-- adicione esta linha */
+}
+
+.explicacao h2 {
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  color: #00d9ff;
+  margin-bottom: 15px;
+}
+
+.explicacao h2,
+.explicacao p, .explicacao ul li
+{
+  text-align: left;
+}
+
+.explicacao p {
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+.explicacao ul {
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.explicacao ul li {
+  margin-bottom: 6px;
+  color: #e6f1ff;
+}
+
+.explicacao .destaque {
+  color: #00d9ff;
+  font-weight: 600;
+}
+
+input, select, button {
+  display: block;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #1c1f26;
+  color: #e6f1ff;
+}
+
+button {
+  background: #00d9ff;
+  color: #0d1117;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #008cff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background: #0d1117;
+  color: #00d9ff;
+}
+
+td {
+  border-bottom: 1px solid #1c1f26;
+}

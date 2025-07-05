@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ativar Premium - MBS Technology</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="Image/ControleDeSenhas.png" type="image/png" />
+</head>
+<body>
+  <div class="header">
+    <div style="text-align: center;">
+      <img src="Image/LogoControleDeSenhas.png" alt="Logo Controle de Senhas" height="150" style="margin-top: 5px; border-radius: 15px;" />
+    </div>
+  </div>
+
+  <div class="admin" style="text-align: center; margin-top: 80px;">
+    <h2>Ativação Premium</h2>
+    <p>Digite seu código de ativação:</p>
+    <input type="text" id="codigo" placeholder="Ex: MBS-4300-3744-4288" maxlength="25" autocomplete="off" />
+    <br />
+    <button onclick="ativarPremium()" style="margin-top: 15px;">Ativar</button>
+    <p id="msg-status" style="margin-top: 15px; font-weight: bold; color: #00d9ff;"></p>
+  </div>
+
+  <script>
+    function validarCodigoNovo(codigoDigitado) {
+      const base = [2025, 612, 2024]; // Blocos da senha base
+      const now = new Date();
+      const multiplicador = (now.getMonth() + 1) * 2; // dobro do mês atual
+
+      const extrairNumeros = str => {
+        const partes = str.replace(/[^\d]/g, "").match(/\d{4}/g);
+        return partes ? partes.map(Number) : null;
+      };
+
+      const codigoNumeros = extrairNumeros(codigoDigitado);
+      if (!codigoDigitado.startsWith("MBS-") || !codigoNumeros || codigoNumeros.length !== 3) return false;
+
+      for (let i = 0; i < 3; i++) {
+        let esperado = base[i] * multiplicador;
+        if (esperado >= 10000) esperado = esperado % 10000; // pega os últimos 4 dígitos
+        if (codigoNumeros[i] !== esperado) return false;
+      }
+
+      return true;
+    }
+
+    function ativarPremium() {
+      const codigoInput = document.getElementById("codigo");
+      const codigo = codigoInput.value.trim().toUpperCase();
+      const msg = document.getElementById("msg-status");
+
+      if (!validarCodigoNovo(codigo)) {
+        msg.style.color = "#ff5555";
+        msg.innerText = "Código inválido para este mês.";
+        return;
+      }
+
+      localStorage.setItem("premium_ativo", "true");
+      localStorage.setItem("premium_validade", Date.now().toString());
+      msg.style.color = "#00ff88";
+      msg.innerText = "Premium ativado por 30 dias!";
+
+      codigoInput.disabled = true;
+      document.querySelector("button").disabled = true;
+
+      // Redireciona após 1.5 segundos para a página admin
+      setTimeout(() => {
+        window.location.href = "https://matheusb7.github.io/controledesenha/admin";
+      }, 500);
+    }
+  </script>
+</body>
+</html>
